@@ -1,0 +1,8 @@
+---
+- hosts: master
+  remote_user: root
+  tasks:
+  - name: Create a Deployment and service
+    kubernetes.core.k8s:
+      state: present
+      src: apache-deployment.yml
