@@ -2,7 +2,16 @@
 - hosts: master
   remote_user: root
   tasks:
+  - name: setup code on master
+    copy:
+     src: "/tmp/apache-deployment.yml"
+     dest: "/tmp/apache-deployment.yml"
+     mode: 0755
+
   - name: Create a Deployment and service
-    k8s:
-      state: present
-      src: apache-deployment.yml
+    shell: 'kubectl apply -f /tmp/apache-deployment.yml ; kubectl get service'
+    register: myoutput
+
+  - name: print output
+    debug:
+      msg: "{{ myoutput.stdout }}"
